@@ -28,10 +28,12 @@ function MyDiff()
   silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
 endfunction
 
-""map esc to jk
+"map esc to jk
 inoremap jk <ESC>
-""map leader / to ,
+"map leader / to ,
 let mapleader = ","
+"map ` to ´ for the markings
+"noremap ´ `
 
 filetype plugin indent on
 
@@ -44,7 +46,7 @@ set modelines=0
 
 vnoremap . :norm.<CR>
 
-""settings von http://stevelosh.com/blog/2010/09/coming-home-to-vim/
+"settings von http://stevelosh.com/blog/2010/09/coming-home-to-vim/
 
 set tabstop=4
 set shiftwidth=4
@@ -91,7 +93,7 @@ inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
 
-""open split and switch to it
+"open split and switch to it
 nnoremap <leader>w <C-w>v<C-w>l
 
 colors elisex
@@ -99,7 +101,6 @@ colors elisex
 set exrc
 set secure
 
-set novb
 set novb
 
 no <down> <Nop>
@@ -113,8 +114,20 @@ ino <right> <Nop>
 ino <up> <Nop>
 
 syntax on
-set guifont=Lucida_Console:h14
+set guifont=Lucida_Console:h10
 
 set wildmenu
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+" CDC = Change to Directory of Current file
+command CDC cd %:p:h
+
+imap <leader>{ {<cr>}<ESC>ka<cr>
+"autoreload
+augroup myvimrc
+    au!
+    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+
+"make with alt-m
+nmap <A-m> :! mingw32-make<cr>
